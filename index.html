@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope you smile when you see this❤️</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #e63946;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    .letter {
+      margin-bottom: 40px;
+    }
+
+    .letter-box {
+      background: #fff0f3;
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .scratch-section {
+      text-align: center;
+    }
+
+    .scratch-wrapper {
+      position: relative;
+      display: inline-block;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    #hiddenImage {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    #scratchCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+
+    .hint {
+      margin-top: 12px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* VALENTINE BUTTON */
+    #buttonContainer {
+      display: none;
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    #valentineBtn {
+      background: linear-gradient(135deg, #ff4d6d, #ff8fa3);
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      padding: 14px 28px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #valentineBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.25);
+    }
+
+    /* FLOATING HEARTS */
+    .heart {
+      position: fixed;
+      bottom: 20px;
+      font-size: 24px;
+      animation: floatUp 2.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-220px); opacity: 0; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      color: #999;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Janine, my love, I have something to ask you...♡</h1>
+    <p class="subtitle">btw... you a cutie :)</p>
+
+    <div class="letter">
+      <h2>My Letter to You 💌</h2>
+      <div class="letter-box">
+        <p>Yo lady!</p>
+        <p>Yeah you 🫵 No, dont look behind you, I am talking to you, the pretty girl</p>
+        <p>Good, do I have your attention now? Listen up yo 👂</p>
+        <p>Where do I even begin?</p>
+        <p>
+          You make me happy. You make me smile. You make me go red in the face.
+          You make me feel better when I am down.
+          You make my heart warmer, my day brighter, my life lighter, and make me feel wanted.
+        </p>
+        <p>Now, lemme tell you a lil sum sum bout you...</p>
+        <p>I wish you could see yourself the way I see you.</p>
+        <p>
+          Your smile, your eyes, your hair, your laugh, your sass, your quick humerous wit,
+          your randomness, your grit, your bubbly attitude, your loving nature, your caring,
+          your side eyes, your suggestive smirks... your huuuge biceps that can knock me out
+          (pls dont punch me)
+        </p>
+        <p>Janine you have no idea how precious you are to me</p>
+        <p><strong>Soooo...🤭 With that being said, I have 1 more thing left to say...</strong></p>
+      </div>
+    </div>
+
+    <div class="scratch-section">
+      <h2>Scratch to Reveal Your Surprise ✨</h2>
+      <div class="scratch-wrapper">
+          
+          
+          
+        <img id="hiddenImage" src="https://i.ibb.co/yTh7mCX/VDAYAI.png" alt="Hidden Surprise" />
+        <canvas id="scratchCanvas" width="300" height="300"></canvas>
+      </div>
+      <p class="hint">Scratch the grey area with your finger 💕</p>
+    </div>
+
+    <!-- BUTTON (hidden until scratched enough) -->
+    <div id="buttonContainer">
+      <button id="valentineBtn">Will you be my Valentine? 💖</button>
+    </div>
+
+    <footer>
+      this kiss is only if this goes well --> 😚
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#b0b0b0';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = 'destination-out';
+
+    let isDrawing = false;
+
+    function getPointerPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+      return { x, y };
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const { x, y } = getPointerPos(e);
+      ctx.beginPath();
+      ctx.arc(x, y, 20, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => {
+      isDrawing = false;
+      checkScratch();
+    });
+
+    canvas.addEventListener('touchstart', () => isDrawing = true);
+    canvas.addEventListener('touchmove', draw);
+    canvas.addEventListener('touchend', () => {
+      isDrawing = false;
+      checkScratch();
+    });
+
+    function checkScratch() {
+      const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let cleared = 0;
+      for (let i = 3; i < pixels.length; i += 4) {
+        if (pixels[i] === 0) cleared++;
+      }
+      if (cleared / (pixels.length / 4) > 0.4) {
+        document.getElementById('buttonContainer').style.display = 'block';
+      }
+    }
+
+    // BUTTON + HEARTS
+    const btn = document.getElementById('valentineBtn');
+    btn.addEventListener('click', () => {
+      btn.textContent = 'She said YES!!! 💕🥰';
+      btn.disabled = true;
+
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = '❤️';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2500);
+      }
+    });
+  </script>
+</body>
+</html>
